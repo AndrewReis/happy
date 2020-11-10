@@ -4,11 +4,12 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev:server": "tsnd --transpile-only --ignore-watch node_modules --respawn src/server.ts",
+    "dev:server": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/server.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
   },
   "dependencies": {
     "express": "^4.17.1",
+    "sqlite3": "^5.0.0",
     "typeorm": "^0.2.29",
     "uuidv4": "^6.2.5"
   },

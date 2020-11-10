@@ -1,6 +1,12 @@
 import { Router } from "express";
 import { getRepository } from "typeorm";
+import multer from "multer";
+
+import uploadConfig from "../config/upload";
+
 import Orphanages from "../entities/Orphanages";
+
+const upload = multer(uploadConfig);
 
 const orphanagesRouter = Router();
 
@@ -20,31 +26,35 @@ orphanagesRouter.get("/", async (request, response) => {
     return response.json(orphanages);
 });
 
-orphanagesRouter.post("/", async (request, response) => {
-    const {
-        name,
-        latitude,
-        longitude,
-        about,
-        instructions,
-        opening_hours,
-        open_on_weekends,
-    } = request.body;
+orphanagesRouter.post(
+    "/",
+    upload.array("images"),
+    async (request, response) => {
+        const {
+            name,
+            latitude,
+            longitude,
+            about,
+            instructions,
+            opening_hours,
+            open_on_weekends,
+        } = request.body;
 
-    const orphanagesRepository = getRepository(Orphanages);
+        const orphanagesRepository = getRepository(Orphanages);
 
-    const orphanage = orphanagesRepository.create({
-        name,
-        latitude,
-        longitude,
-        about,
-        instructions,
-        opening_hours,
-        open_on_weekends,
-    });
+        const orphanage = orphanagesRepository.create({
+            name,
+            latitude,
+            longitude,
+            about,
+            instructions,
+            opening_hours,
+            open_on_weekends,
+        });
 
-    await orphanagesRepository.save(orphanage);
-    return response.status(201).json(orphanage);
-});
+        await orphanagesRepository.save(orphanage);
+        return response.status(201).json(orphanage);
+    }
+);
 
 export default orphanagesRouter;

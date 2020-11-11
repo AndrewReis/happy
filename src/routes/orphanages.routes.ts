@@ -30,6 +30,7 @@ orphanagesRouter.post(
     "/",
     upload.array("images"),
     async (request, response) => {
+        const requestImage = request.files as Express.Multer.File[];
         const {
             name,
             latitude,
@@ -39,6 +40,10 @@ orphanagesRouter.post(
             opening_hours,
             open_on_weekends,
         } = request.body;
+
+        const image = requestImage.map((images) => {
+            return { path: images.filename };
+        });
 
         const orphanagesRepository = getRepository(Orphanages);
 
@@ -50,6 +55,7 @@ orphanagesRouter.post(
             instructions,
             opening_hours,
             open_on_weekends,
+            image,
         });
 
         await orphanagesRepository.save(orphanage);

@@ -15,7 +15,7 @@ export default class createImages1604969596818 implements MigrationInterface {
                         default: "uuid_generate_v4()",
                     },
                     {
-                        name: "path_name",
+                        name: "path",
                         type: "varchar",
                     },
                     {

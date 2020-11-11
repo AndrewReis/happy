@@ -4,7 +4,11 @@ import {
     PrimaryGeneratedColumn,
     CreateDateColumn,
     UpdateDateColumn,
+    OneToMany,
+    JoinColumn,
 } from "typeorm";
+
+import Image from "./Image";
 
 @Entity("orphanages")
 class Orphanages {
@@ -37,6 +41,12 @@ class Orphanages {
 
     @UpdateDateColumn()
     updated_at: Date;
+
+    @OneToMany(() => Image, (image) => image.orphanage, {
+        cascade: ["insert", "update"],
+    })
+    @JoinColumn({ name: "orphanage_id" })
+    image: Image[];
 }
 
 export default Orphanages;
